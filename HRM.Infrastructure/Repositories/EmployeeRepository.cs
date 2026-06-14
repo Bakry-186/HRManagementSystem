@@ -62,8 +62,8 @@ public class EmployeeRepository(AppDbContext context) : IEmployeeRepository
         return true;
     }
 
-    public Task<bool> EmailExistsAsync(string email)
+    public async Task<bool> EmailExistsAsync(string email)
     {
-        return context.Employees.AnyAsync(e => e.Email == email);
+        return await context.Employees.AnyAsync(e => e.Email == email && e.IsActive);
     }
 }
