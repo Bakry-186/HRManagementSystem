@@ -14,10 +14,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(cfg => cfg.AddProfile<EmployeeMappingProfile>());
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<EmployeeMappingProfile>();
+    cfg.AddProfile<DepartmentMappingProfile>();
+});
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(EmployeeMappingProfile).Assembly));
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 var app = builder.Build();
 
