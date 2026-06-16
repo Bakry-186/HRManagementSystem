@@ -23,7 +23,7 @@ public class UpdateDepartmentCommandHandlerTests
     {
         var departmentId = Guid.NewGuid();
         var existing = new Department { Id = departmentId, Name = "Old Name", IsActive = true };
-        var dto = new CreateOrUpdateDepartmentDto { Name = "New Name", Description = "Updated" };
+        var dto = new UpdateDepartmentDto { Name = "New Name", Description = "Updated" };
         var command = new UpdateDepartmentCommand(departmentId, dto);
 
         _repositoryMock.Setup(r => r.GetByIdAsync(departmentId)).ReturnsAsync(existing);
@@ -39,7 +39,7 @@ public class UpdateDepartmentCommandHandlerTests
     public async Task Handle_NonExistingDepartment_ThrowsKeyNotFoundException()
     {
         var departmentId = Guid.NewGuid();
-        var command = new UpdateDepartmentCommand(departmentId, new CreateOrUpdateDepartmentDto { Name = "X" });
+        var command = new UpdateDepartmentCommand(departmentId, new UpdateDepartmentDto { Name = "X" });
 
         _repositoryMock.Setup(r => r.GetByIdAsync(departmentId)).ReturnsAsync((Department?)null);
 
@@ -51,7 +51,7 @@ public class UpdateDepartmentCommandHandlerTests
     public async Task Handle_NonExistingDepartment_NeverCallsUpdate()
     {
         var departmentId = Guid.NewGuid();
-        var command = new UpdateDepartmentCommand(departmentId, new CreateOrUpdateDepartmentDto { Name = "X" });
+        var command = new UpdateDepartmentCommand(departmentId, new UpdateDepartmentDto { Name = "X" });
 
         _repositoryMock.Setup(r => r.GetByIdAsync(departmentId)).ReturnsAsync((Department?)null);
 

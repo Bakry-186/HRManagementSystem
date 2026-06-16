@@ -21,7 +21,7 @@ public class CreateDepartmentCommandHandlerTests
     [Fact]
     public async Task Handle_ValidRequest_ReturnsDepartmentResponseDto()
     {
-        var dto = new CreateOrUpdateDepartmentDto { Name = "Engineering", Description = "Tech team" };
+        var dto = new CreateDepartmentDto { Name = "Engineering", Description = "Tech team" };
         var command = new CreateDepartmentCommand(dto);
 
         var createdDepartment = new Department
@@ -49,7 +49,7 @@ public class CreateDepartmentCommandHandlerTests
     [Fact]
     public async Task Handle_ValidRequest_CallsRepositoryCreateOnce()
     {
-        var dto = new CreateOrUpdateDepartmentDto { Name = "HR" };
+        var dto = new CreateDepartmentDto { Name = "HR" };
         var command = new CreateDepartmentCommand(dto);
 
         _repositoryMock
@@ -64,7 +64,7 @@ public class CreateDepartmentCommandHandlerTests
     [Fact]
     public async Task Handle_DuplicateName_ThrowsInvalidOperationException()
     {
-        var dto = new CreateOrUpdateDepartmentDto { Name = "Engineering" };
+        var dto = new CreateDepartmentDto { Name = "Engineering" };
         _repositoryMock.Setup(r => r.NameExistsAsync(dto.Name)).ReturnsAsync(true);
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -74,7 +74,7 @@ public class CreateDepartmentCommandHandlerTests
     [Fact]
     public async Task Handle_DuplicateName_NeverCallsCreate()
     {
-        var dto = new CreateOrUpdateDepartmentDto { Name = "Engineering" };
+        var dto = new CreateDepartmentDto { Name = "Engineering" };
         _repositoryMock.Setup(r => r.NameExistsAsync(dto.Name)).ReturnsAsync(true);
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>

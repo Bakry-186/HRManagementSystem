@@ -3,4 +3,4 @@ using MediatR;
 
 namespace HRM.Application.Features.Departments.Commands.CreateDepartment;
 
-public record CreateDepartmentCommand(CreateOrUpdateDepartmentDto Dto) : IRequest<DepartmentResponseDto>;
+public record CreateDepartmentCommand(CreateDepartmentDto Dto) : IRequest<DepartmentResponseDto>;
