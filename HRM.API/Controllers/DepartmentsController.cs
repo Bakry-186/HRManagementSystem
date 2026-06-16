@@ -37,7 +37,7 @@ public class DepartmentsController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(DepartmentResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> Create([FromBody] CreateOrUpdateDepartmentDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto)
     {
         var result = await mediator.Send(new CreateDepartmentCommand(dto));
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -46,7 +46,7 @@ public class DepartmentsController(IMediator mediator) : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(DepartmentResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] CreateOrUpdateDepartmentDto dto)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateDepartmentDto dto)
     {
         var result = await mediator.Send(new UpdateDepartmentCommand(id, dto));
         return Ok(result);

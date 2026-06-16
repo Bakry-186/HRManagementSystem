@@ -9,6 +9,7 @@ public class DepartmentMappingProfile : Profile
     public DepartmentMappingProfile()
     {
         CreateMap<Department, DepartmentResponseDto>();
-        CreateMap<CreateOrUpdateDepartmentDto, Department>();
+        CreateMap<CreateDepartmentDto, Department>();
+        CreateMap<UpdateDepartmentDto, Department>();
     }
 }
