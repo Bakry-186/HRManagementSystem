@@ -17,7 +17,9 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         builder.Property(d => d.CreatedAt).IsRequired();
         builder.Property(d => d.UpdatedAt).IsRequired();
 
-        builder.HasIndex(d => d.Name).IsUnique();
+        builder.HasIndex(d => d.Name)
+            .IsUnique()
+            .HasFilter($"[{nameof(Department.IsActive)}] = 1");
 
         builder.HasMany(d => d.Employees)
             .WithOne(e => e.Department)

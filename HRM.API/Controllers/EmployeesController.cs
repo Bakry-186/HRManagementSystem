@@ -1,4 +1,5 @@
 using HRM.Application.Common.Models;
+using HRM.Application.Constants;
 using HRM.Application.DTOs.Employee;
 using HRM.Application.Features.Employees.Commands.CreateEmployee;
 using HRM.Application.Features.Employees.Commands.DeactivateEmployee;
@@ -37,6 +38,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.HR}")]
     [ProducesResponseType(typeof(EmployeeResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Create([FromBody] CreateEmployeeDto dto)
@@ -46,6 +48,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.HR}")]
     [ProducesResponseType(typeof(EmployeeResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEmployeeDto dto)
@@ -55,6 +58,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Deactivate(Guid id)

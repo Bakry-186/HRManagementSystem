@@ -21,6 +21,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
-        builder.HasIndex(e => e.Email).IsUnique();
+
+        builder.HasIndex(e => e.Email)
+            .IsUnique()
+            .HasFilter($"[{nameof(Employee.IsActive)}] = 1");
     }
 }
