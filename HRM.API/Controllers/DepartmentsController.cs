@@ -1,4 +1,5 @@
 using HRM.Application.Common.Models;
+using HRM.Application.Constants;
 using HRM.Application.DTOs.Department;
 using HRM.Application.Features.Departments.Commands.CreateDepartment;
 using HRM.Application.Features.Departments.Commands.DeactivateDepartment;
@@ -37,6 +38,7 @@ public class DepartmentsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.HR}")]
     [ProducesResponseType(typeof(DepartmentResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto)
@@ -46,6 +48,7 @@ public class DepartmentsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = $"{Roles.Admin},{Roles.HR}")]
     [ProducesResponseType(typeof(DepartmentResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateDepartmentDto dto)
@@ -55,6 +58,7 @@ public class DepartmentsController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Deactivate(Guid id)
