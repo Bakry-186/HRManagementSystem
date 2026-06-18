@@ -15,6 +15,7 @@ public static class MappingTestHelper
         {
             cfg.AddProfile<EmployeeMappingProfile>();
             cfg.AddProfile<DepartmentMappingProfile>();
+            cfg.AddProfile<AttendanceRecordMappingProfile>();
         });
         return services.BuildServiceProvider().GetRequiredService<IMapper>();
     }
