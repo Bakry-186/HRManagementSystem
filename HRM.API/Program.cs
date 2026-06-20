@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using HRM.API.Middleware;
 using HRM.API.Services;
+using HRM.Infrastructure.Interceptors;
 using HRM.Application.Interfaces;
 using HRM.Application.Mappings;
 using HRM.Application.Validators.Employee;
@@ -64,16 +65,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<AuditInterceptor>();
 
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .AddInterceptors(sp.GetRequiredService<AuditInterceptor>()));
 
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<EmployeeMappingProfile>();
     cfg.AddProfile<DepartmentMappingProfile>();
     cfg.AddProfile<AttendanceRecordMappingProfile>();
+    cfg.AddProfile<PayrollRecordMappingProfile>();
+    cfg.AddProfile<AuditLogMappingProfile>();
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(EmployeeMappingProfile).Assembly));
@@ -82,6 +87,8 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
 var app = builder.Build();
 

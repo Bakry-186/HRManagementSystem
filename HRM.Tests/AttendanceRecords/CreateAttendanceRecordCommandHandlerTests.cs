@@ -10,15 +10,26 @@ namespace HRM.Tests.AttendanceRecords;
 public class CreateAttendanceRecordCommandHandlerTests
 {
     private readonly Mock<IAttendanceRepository> _repositoryMock;
+    private readonly Mock<IEmployeeRepository> _employeeRepoMock;
     private readonly CreateAttendanceRecordCommandHandler _handler;
 
     private static readonly Guid EmployeeId = Guid.NewGuid();
     private static readonly DateOnly Today = DateOnly.FromDateTime(DateTime.UtcNow);
 
+    private static Employee FakeEmployee => new()
+    {
+        Id = EmployeeId,
+        FirstName = "John", LastName = "Doe", Email = "john@example.com",
+        JobTitle = "Developer", HireDate = new DateOnly(2024, 1, 1), Salary = 5000,
+        IsActive = true, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow
+    };
+
     public CreateAttendanceRecordCommandHandlerTests()
     {
         _repositoryMock = new Mock<IAttendanceRepository>();
-        _handler = new CreateAttendanceRecordCommandHandler(_repositoryMock.Object, MappingTestHelper.CreateMapper());
+        _employeeRepoMock = new Mock<IEmployeeRepository>();
+        _employeeRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(FakeEmployee);
+        _handler = new CreateAttendanceRecordCommandHandler(_repositoryMock.Object, _employeeRepoMock.Object, MappingTestHelper.CreateMapper());
     }
 
     [Fact]
