@@ -11,4 +11,12 @@ public class AttendanceRepository(AppDbContext context) : GenericRepository<Atte
     {
         return await DbSet.FirstOrDefaultAsync(ar => ar.EmployeeId == employeeId && ar.Date == date && ar.IsActive);
     }
+
+    public async Task<List<AttendanceRecord>> GetByEmployeeIdAndPeriodAsync(Guid employeeId, DateOnly periodStart, DateOnly periodEnd)
+    {
+        return await DbSet
+            .Where(ar => ar.EmployeeId == employeeId && ar.Date >= periodStart && ar.Date <= periodEnd && ar.IsActive)
+            .OrderBy(ar => ar.Date)
+            .ToListAsync();
+    }
 }
