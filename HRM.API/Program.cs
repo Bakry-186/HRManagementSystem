@@ -74,6 +74,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<EmployeeMappingProfile>();
     cfg.AddProfile<DepartmentMappingProfile>();
     cfg.AddProfile<AttendanceRecordMappingProfile>();
+    cfg.AddProfile<PayrollRecordMappingProfile>();
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(EmployeeMappingProfile).Assembly));
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 
 var app = builder.Build();
 
