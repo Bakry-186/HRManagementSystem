@@ -1,5 +1,4 @@
 using HRM.Application.Common.Models;
-using HRM.Application.DTOs.PayrollRecord;
 using HRM.Domain.Entities;
 namespace HRM.Application.Interfaces;
 
