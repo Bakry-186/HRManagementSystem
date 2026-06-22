@@ -7,13 +7,15 @@ using HRM.Application.Features.Employees.Commands.UpdateEmployee;
 using HRM.Application.Features.Employees.Queries.GetAllEmployees;
 using HRM.Application.Features.Employees.Queries.GetEmployeeById;
 using MediatR;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRM.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 [Authorize]
 public class EmployeesController(IMediator mediator) : ControllerBase

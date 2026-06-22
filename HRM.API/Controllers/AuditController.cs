@@ -3,13 +3,15 @@ using HRM.Application.Constants;
 using HRM.Application.DTOs.AuditLog;
 using HRM.Application.Features.AuditLogs.Queries.GetAllAuditLogs;
 using MediatR;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRM.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 [Authorize(Roles = Roles.Admin)]
 public class AuditController(IMediator mediator) : ControllerBase
