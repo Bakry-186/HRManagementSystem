@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using HRM.Application.Common.Models;
 using HRM.Application.DTOs.Auth;
 using HRM.Application.Interfaces;
@@ -6,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HRM.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 public class AuthController(IAuthService authService) : ControllerBase
 {

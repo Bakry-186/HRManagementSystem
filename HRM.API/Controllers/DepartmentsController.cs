@@ -7,13 +7,15 @@ using HRM.Application.Features.Departments.Commands.UpdateDepartment;
 using HRM.Application.Features.Departments.Queries.GetAllDepartments;
 using HRM.Application.Features.Departments.Queries.GetDepartmentById;
 using MediatR;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRM.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 [Authorize]
 public class DepartmentsController(IMediator mediator) : ControllerBase

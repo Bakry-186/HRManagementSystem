@@ -10,13 +10,15 @@ using HRM.Application.Features.PayrollRecords.Queries.GetAllPayrollRecords;
 using HRM.Application.Features.PayrollRecords.Queries.GetPayrollRecordById;
 using HRM.Application.Features.PayrollRecords.Queries.GetPayrollRecordsByEmployeeId;
 using MediatR;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRM.API.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [Produces("application/json")]
 [Authorize]
 public class PayrollController(IMediator mediator) : ControllerBase

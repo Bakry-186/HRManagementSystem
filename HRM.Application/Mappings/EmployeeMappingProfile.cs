@@ -9,6 +9,8 @@ public class EmployeeMappingProfile : Profile
     public EmployeeMappingProfile()
     {
         CreateMap<Employee, EmployeeResponseDto>();
+        CreateMap<Employee, EmployeeV2ResponseDto>()
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
         CreateMap<CreateEmployeeDto, Employee>();
         CreateMap<UpdateEmployeeDto, Employee>();
     }
