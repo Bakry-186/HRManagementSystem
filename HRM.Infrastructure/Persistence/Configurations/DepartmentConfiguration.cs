@@ -12,7 +12,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
 
         builder.Property(d => d.Name).IsRequired().HasMaxLength(100);
         builder.Property(d => d.Description).HasMaxLength(255);
-        builder.Property(d => d.IsActive).HasDefaultValue(true);
+        builder.Property(d => d.IsActive).HasDefaultValueSql("1");
 
         builder.Property(d => d.CreatedAt).IsRequired();
         builder.Property(d => d.UpdatedAt).IsRequired();

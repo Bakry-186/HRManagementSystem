@@ -19,7 +19,7 @@ public class AttendanceRecordConfiguration : IEntityTypeConfiguration<Attendance
 
         builder.Property(ar => ar.CreatedAt).IsRequired();
         builder.Property(ar => ar.UpdatedAt).IsRequired();
-        builder.Property(ar => ar.IsActive).HasDefaultValue(true);
+        builder.Property(ar => ar.IsActive).HasDefaultValueSql("1");
 
         builder.HasIndex(ar => new { ar.EmployeeId, ar.Date })
             .IsUnique()
