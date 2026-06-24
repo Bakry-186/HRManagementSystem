@@ -17,10 +17,13 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.HireDate).IsRequired();
         builder.Property(e => e.JobTitle).IsRequired().HasMaxLength(150);
         builder.Property(e => e.Salary).IsRequired().HasColumnType("decimal(18,2)");
-        builder.Property(e => e.IsActive).HasDefaultValue(true);
+        builder.Property(e => e.IsActive).HasDefaultValueSql("1");
 
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
-        builder.HasIndex(e => e.Email).IsUnique();
+
+        builder.HasIndex(e => e.Email)
+            .IsUnique()
+            .HasFilter($"[{nameof(Employee.IsActive)}] = 1");
     }
 }

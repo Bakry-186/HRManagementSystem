@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM.Infrastructure", "HRM.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM.API", "HRM.API\HRM.API.csproj", "{E4DE3D91-90F5-419F-97EB-090DE2FF45A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM.Tests", "HRM.Tests\HRM.Tests.csproj", "{E367DAB2-96F9-40C8-B26D-830369CC7C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{E4DE3D91-90F5-419F-97EB-090DE2FF45A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4DE3D91-90F5-419F-97EB-090DE2FF45A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4DE3D91-90F5-419F-97EB-090DE2FF45A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E367DAB2-96F9-40C8-B26D-830369CC7C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E367DAB2-96F9-40C8-B26D-830369CC7C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E367DAB2-96F9-40C8-B26D-830369CC7C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E367DAB2-96F9-40C8-B26D-830369CC7C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

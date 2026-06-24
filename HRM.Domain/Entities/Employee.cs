@@ -9,5 +9,8 @@ public class Employee : BaseEntity
     public required DateOnly HireDate { get; set; }
     public required string JobTitle { get; set; }
     public required decimal Salary { get; set; }
-    public bool IsActive { get; set; } = true;
+
+    // Navigation property
+    public Guid? DepartmentId { get; set; }
+    public Department? Department { get; set; }
 }

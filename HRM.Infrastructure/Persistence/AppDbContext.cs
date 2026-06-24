@@ -1,11 +1,17 @@
+using System.Reflection;
 using HRM.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+
 namespace HRM.Infrastructure.Persistence;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Department> Departments { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<AttendanceRecord> AttendanceRecords { get; set; }
+    public DbSet<PayrollRecord> PayrollRecords { get; set; }
+    public DbSet<AuditLog> AuditLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
