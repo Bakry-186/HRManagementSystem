@@ -21,7 +21,7 @@ public class PayrollRecordConfiguration : IEntityTypeConfiguration<PayrollRecord
 
         builder.Property(pr => pr.CreatedAt).IsRequired();
         builder.Property(pr => pr.UpdatedAt).IsRequired();
-        builder.Property(pr => pr.IsActive).HasDefaultValue(true);
+        builder.Property(pr => pr.IsActive).HasDefaultValueSql("1");
 
         builder.HasIndex(pr => new { pr.EmployeeId, pr.PeriodStart })
             .IsUnique()

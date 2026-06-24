@@ -120,26 +120,56 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-if (app.Environment.IsDevelopment())
+var apiVersionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    var apiVersionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    foreach (var description in apiVersionProvider.ApiVersionDescriptions)
     {
-        foreach (var description in apiVersionProvider.ApiVersionDescriptions)
-        {
-            options.SwaggerEndpoint(
-                $"/swagger/{description.GroupName}/swagger.json",
-                $"HRM API {description.ApiVersion}");
-        }
-    });
-}
+        options.SwaggerEndpoint(
+            $"/swagger/{description.GroupName}/swagger.json",
+            $"HRM API {description.ApiVersion}");
+    }
+});
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    if (db.Database.IsRelational())
+    {
+        var retries = 0;
+        const int maxRetries = 5;
+        while (retries < maxRetries)
+        {
+            try
+            {
+                db.Database.Migrate();
+                break;
+            }
+            catch (Exception ex)
+            {
+                retries++;
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogWarning("Migration attempt {Retry}/{Max} failed: {Message}", retries, maxRetries, ex.Message);
+                if (retries >= maxRetries) throw;
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+            }
+        }
+    }
+    else
+    {
+        db.Database.EnsureCreated();
+    }
+}
+
 app.Run();
+
+public partial class Program { }
