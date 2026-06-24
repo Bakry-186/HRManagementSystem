@@ -142,25 +142,34 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var retries = 0;
-    const int maxRetries = 5;
-    while (retries < maxRetries)
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    if (db.Database.IsRelational())
     {
-        try
+        var retries = 0;
+        const int maxRetries = 5;
+        while (retries < maxRetries)
         {
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            db.Database.Migrate();
-            break;
+            try
+            {
+                db.Database.Migrate();
+                break;
+            }
+            catch (Exception ex)
+            {
+                retries++;
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogWarning("Migration attempt {Retry}/{Max} failed: {Message}", retries, maxRetries, ex.Message);
+                if (retries >= maxRetries) throw;
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+            }
         }
-        catch (Exception ex)
-        {
-            retries++;
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogWarning("Migration attempt {Retry}/{Max} failed: {Message}", retries, maxRetries, ex.Message);
-            if (retries >= maxRetries) throw;
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-        }
+    }
+    else
+    {
+        db.Database.EnsureCreated();
     }
 }
 
 app.Run();
+
+public partial class Program { }
